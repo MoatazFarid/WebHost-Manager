@@ -1,0 +1,11 @@
+admins
+userId || name || password
+
+users
+userID || name || phone || email
+
+hosting
+userID || website || storage || bandwidth ||  startDate || endDate || price || paidState || hostingState
+
+domain
+userId || domain || startDate || endDate || price || paidState
