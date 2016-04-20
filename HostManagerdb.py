@@ -2,10 +2,16 @@
 # -*- coding: utf-8 -*-
 import sqlite3
 
+#============================
+#------ Configuration --------
 
+#define a database Name
+dbName = 'm_database.db' ;
+
+#============================
 def init():
 
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     print "Opened database successfully";
     try :
         #dropping existing tables
@@ -63,7 +69,7 @@ def init():
 
 def newAdmin(f_name,f_pass):
     id = noOfAdmins() + 1;
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     print "Opened database successfully";
     c = conn.cursor()
     # c.execute('INSERT INTO USERS (userId,name,phone,email) VALUES ( id,name,phone,email)')
@@ -75,7 +81,7 @@ def newAdmin(f_name,f_pass):
 
 def newUser(vname,vphone,vemail):
     id = noOfUsers() + 1;
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     print "Opened database successfully";
     c = conn.cursor()
     # c.execute('INSERT INTO USERS (userId,name,phone,email) VALUES ( id,name,phone,email)')
@@ -86,32 +92,40 @@ def newUser(vname,vphone,vemail):
     return 1
 
 def newDomain(id,domain,start,end,paidS,price):
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     print "Opened database successfully";
-    c.execute("INSERT into Domain values (?,?,?,?,?,?)"%(id,domain,start,end,paidS,price))
+    c.execute("INSERT into Domain values (?,?,?,?,?,?)",(id,domain,start,end,paidS,price))
     conn.commit()
     conn.close()
     return 1
 
 def newHost(id,website,storage,bandwidth,start,end,paidS,hostS,price):
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
-    c.execute("INSERT into Domain values (?,?,?,?,?,?)"%(id,website,storage,bandwidth,start,end,paidS,hostS,price))
+    c.execute("INSERT into HOSTING values (?,?,?,?,?,?,?,?,?)",(id,website,storage,bandwidth,start,end,paidS,hostS,price))
     conn.commit()
     conn.close()
     return 1
 
 def getAllUsers():
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     out = c.execute("SELECT * FROM USERS")
     out = out.fetchall();
     conn.close()
     return out
 
+def getAllDomains():
+    conn = sqlite3.connect(dbName)
+    c = conn.cursor()
+    out = c.execute("SELECT * FROM DOMAIN")
+    out = out.fetchall();
+    conn.close()
+    return out
+
 def noOfUsers():
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     out = c.execute("SELECT count(*) FROM USERS")
     out = out.fetchone();
@@ -119,7 +133,7 @@ def noOfUsers():
     return out[0]
 
 def noOfAdmins():
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     out = c.execute("SELECT count(*) FROM ADMINS")
     out = out.fetchone();
@@ -127,7 +141,7 @@ def noOfAdmins():
     return out[0]
 
 def noOfDomains():
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     out = c.execute("SELECT count(*) FROM DOMAIN")
     out = out.fetchone();
@@ -135,7 +149,7 @@ def noOfDomains():
     return out[0]
 
 def noOfHosts():
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     out = c.execute("SELECT count(*) FROM HOSTING")
     out = out.fetchone();
@@ -143,7 +157,7 @@ def noOfHosts():
     return out[0]
 
 def dropTables():
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     print "Opened database successfully";
     try :
@@ -160,7 +174,7 @@ def dropTables():
         conn.close()
 
 def getUserData(f_userId):
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     out = c.execute("SELECT * FROM USERS WHERE userId = ?",(f_userId))
     out = out.fetchall();
@@ -169,9 +183,41 @@ def getUserData(f_userId):
 
 #get user id
 def getUserID(userName):
-
-    conn = sqlite3.connect('m_database.db')
+    conn = sqlite3.connect(dbName)
     print "Opened database successfully";
     res = conn.execute("SELECT userId from USERS where name = ?",(userName))
     conn.close()
     return res[0]
+
+#get a domain return full details
+def getDomainData(arg):
+    conn = sqlite3.connect(dbName)
+    c = conn.cursor()
+    out = c.execute("SELECT * FROM DOMAIN where domain = ?",(arg))
+    out = out.fetchall();
+    conn.close()
+    return out
+
+def getHostData(arg):
+    conn = sqlite3.connect(dbName)
+    c = conn.cursor()
+    out = c.execute("SELECT * FROM HOSTING where website = ?",(arg))
+    out = out.fetchall();
+    conn.close()
+    return out
+
+def getAllUserHosting(arg):
+    conn = sqlite3.connect(dbName)
+    c = conn.cursor()
+    out = c.execute("SELECT * FROM HOSTING where userId = ?",(arg))
+    out = out.fetchall();
+    conn.close()
+    return out
+
+def getAllUserDomains(arg):
+    conn = sqlite3.connect(dbName)
+    c = conn.cursor()
+    out = c.execute("SELECT * FROM DOMAIN where userId = ?",(arg))
+    out = out.fetchall();
+    conn.close()
+    return out
