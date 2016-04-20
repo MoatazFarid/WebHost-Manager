@@ -36,3 +36,47 @@ def addnewHost():
         print "New Host Added Successfully"
     else:
         print "Failed To create Host"
+
+def addnewDomain():
+    userID = raw_input("user ID : ")
+    DomainName = raw_input("Enter Domain name : ")
+    DomainStart = raw_input("Enter Domain Start date : ")
+    DomainEnd = raw_input("Enter Domain End date : ")
+    DomainFinState = raw_input("Domain Paid/Not-Paid : ")
+    DomainFinAmount = raw_input("Domain Price = ")
+
+    st = HostManagerdb.newDomain(userID,DomainName,DomainStart,DomainEnd,DomainFinState,DomainFinAmount)
+    if st == 1:
+        print "New Domain Added Successfully"
+    else:
+        print "Failed To create Domain"
+
+def PrintAllUsers():
+    ar = HostManagerdb.getAllUsers()
+    for row in ar:
+        print "++===============++"
+        print "User Id : %s"%(row[0])
+        print "User Name : %s"%(row[1])
+        print "User Phone : %s"%(row[2])
+        print "User Email  : %s"%(row[3])
+        print "++===============++"
+
+def PrintDomainsAndUserId():
+    ar = HostManagerdb.getAllDomains()
+    for row in ar:
+        print "++===============++"
+        print "User Id : %s"%(row[0])
+        print "User Domain : %s"%(row[1])
+        print "++===============++"
+
+def PrintDomainDetails(arg):
+    ar = HostManagerdb.getDomainData(arg)
+    for row in ar:
+        print "++===============++"
+        print "User Id : %s"%(row[0])
+        print "User Domain : %s"%(row[1])
+        print "Domain Start Date : %s"%(row[2])
+        print "Domain End Date : %s"%(row[3])
+        print "Domain paid state : %s"%(row[4])
+        print "Domain price : %s"%(row[5])
+        print "++===============++"
