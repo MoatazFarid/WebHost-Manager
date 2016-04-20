@@ -3,11 +3,19 @@
 
 import HostManagerdb
 
+#============================
+#------ Configuration --------
+
+#define a database Name
+err1000 = 'Sorry That Function is not yet Implemented ' ;
+
+#============================
+
 def login_Auth(user,password):
     if user == "admin" and password == "admin":
-        return true
+        return 1
     else:
-        return false
+        return 0
 
 def addnewUser():
     OwnerName = raw_input("Owner Name : ")
@@ -80,3 +88,25 @@ def PrintDomainDetails(arg):
         print "Domain paid state : %s"%(row[4])
         print "Domain price : %s"%(row[5])
         print "++===============++"
+
+#gets userId
+def PrintAllDomainsForUser(arg):
+    ar = HostManagerdb.getAllUserDomains(arg)
+    for row in ar:
+        print "++===============++"
+        print "User Id : %s"%(row[0])
+        print "User Domain : %s"%(row[1])
+        print "Domain Start Date : %s"%(row[2])
+        print "Domain End Date : %s"%(row[3])
+        print "Domain paid state : %s"%(row[4])
+        print "Domain price : %s"%(row[5])
+        print "++===============++"
+
+def searchUser():
+    print err1000
+
+def searchDomain():
+    print err1000
+
+def searchHost():
+    print err1000
